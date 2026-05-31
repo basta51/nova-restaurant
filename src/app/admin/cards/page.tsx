@@ -76,7 +76,17 @@ export default function CardsPage() {
   useEffect(() => {
     fetch('/api/cards')
       .then((r) => r.json())
-      .then((data) => setCards(Array.isArray(data) ? data : []))
+      .then((data) => {
+        const list = data.cards || data || []
+        const mapped = (Array.isArray(list) ? list : []).map((c: any) => ({
+          id: c.id,
+          number: c.cardNumber,
+          type: c.cardType,
+          roomNumber: c.room?.number || '',
+          status: (c.isActive ? 'active' : 'inactive') as 'active' | 'inactive',
+        }))
+        setCards(mapped)
+      })
       .catch(() => {})
       .finally(() => setLoading(false))
   }, [])

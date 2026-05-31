@@ -21,10 +21,22 @@ export default function TransactionsPage() {
 
   const loadTransactions = (room?: string) => {
     setLoading(true)
-    const url = room ? `/api/transactions?room=${encodeURIComponent(room)}` : '/api/transactions'
+    const url = room ? `/api/transactions?roomId=${encodeURIComponent(room)}` : '/api/transactions'
     fetch(url)
       .then((r) => r.json())
-      .then((data) => setTransactions(Array.isArray(data) ? data : []))
+      .then((data) => {
+        const list = data.transactions || data || []
+        const mapped = (Array.isArray(list) ? list : []).map((tx: any) => ({
+          id: tx.id,
+          date: tx.createdAt,
+          guestName: `${tx.guest?.firstName || ''} ${tx.guest?.lastName || ''}`.trim(),
+          roomNumber: tx.guest?.room?.number || '',
+          type: tx.type,
+          amount: tx.amount || 0,
+          status: tx.status,
+        }))
+        setTransactions(mapped)
+      })
       .catch(() => {})
       .finally(() => setLoading(false))
   }

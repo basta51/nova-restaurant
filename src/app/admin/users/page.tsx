@@ -42,7 +42,10 @@ export default function UsersPage() {
     setLoading(true)
     fetch('/api/users')
       .then((r) => r.json())
-      .then((data) => setUsers(Array.isArray(data) ? data : []))
+      .then((data) => {
+        const list = data.users || data || []
+        setUsers(Array.isArray(list) ? list : [])
+      })
       .catch(() => {})
       .finally(() => setLoading(false))
   }

@@ -28,7 +28,30 @@ export default function CreditsPage() {
     setLoading(true)
     fetch('/api/credits')
       .then((r) => r.json())
-      .then((data) => setCredits(Array.isArray(data) ? data : []))
+      .then((data) => {
+        const list = data.credits || data || []
+        const arr = Array.isArray(list) ? list : []
+        // Aggregate credits by guest
+        const map = new Map<string, GuestCredit>()
+        arr.forEach((c: any) => {
+          const gId = c.guest?.id || c.guestId
+          if (!map.has(gId)) {
+            map.set(gId, {
+              guestId: gId,
+              guestName: `${c.guest?.firstName || ''} ${c.guest?.lastName || ''}`.trim(),
+              roomNumber: c.guest?.room?.number || '',
+              restaurant: 0,
+              drinks: 0,
+              extras: 0,
+            })
+          }
+          const entry = map.get(gId)!
+          if (c.type === 'restaurant') entry.restaurant = c.balance || 0
+          else if (c.type === 'drinks') entry.drinks = c.balance || 0
+          else if (c.type === 'extras') entry.extras = c.balance || 0
+        })
+        setCredits(Array.from(map.values()))
+      })
       .catch(() => {})
       .finally(() => setLoading(false))
   }

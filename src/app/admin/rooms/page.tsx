@@ -25,7 +25,7 @@ export default function RoomsPage() {
           id: r.id,
           number: r.number,
           floor: r.floor,
-          status: r.guests?.some((g: any) => g.isActive) ? 'occupied' : 'available',
+          status: (r.guests?.some((g: any) => g.isActive) ? 'occupied' : 'available') as 'occupied' | 'available',
           guestName: r.guests?.find((g: any) => g.isActive)
             ? `${r.guests.find((g: any) => g.isActive).firstName} ${r.guests.find((g: any) => g.isActive).lastName}`
             : undefined,

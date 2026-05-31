@@ -22,7 +22,18 @@ export default function GuestsPage() {
     setLoading(true)
     fetch('/api/guests')
       .then((r) => r.json())
-      .then((data) => setGuests(Array.isArray(data) ? data : []))
+      .then((data) => {
+        const list = data.guests || data || []
+        const mapped = (Array.isArray(list) ? list : []).map((g: any) => ({
+          id: g.id,
+          firstName: g.firstName,
+          lastName: g.lastName,
+          roomNumber: g.room?.number || '',
+          mealPlan: g.mealPlan,
+          status: (g.isActive ? 'active' : 'checked_out') as 'active' | 'checked_out',
+        }))
+        setGuests(mapped)
+      })
       .catch(() => {})
       .finally(() => setLoading(false))
   }
