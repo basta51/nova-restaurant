@@ -93,7 +93,7 @@ export default function PmsPage() {
           <div className="glass-card p-6">
             <h2 className="text-lg font-semibold text-white mb-4">Integration</h2>
             <div className="space-y-3 text-sm text-gray-400">
-              <p>Send a <span className="text-indigo-400 font-mono font-medium">POST</span> request to the webhook URL above with the following payload:</p>
+              <p>Send a <span className="text-orange-400 font-mono font-medium">POST</span> request to the webhook URL above with the following payload:</p>
               <pre className="bg-white/[0.03] ring-1 ring-white/[0.06] rounded-xl p-4 text-gray-300 text-xs overflow-x-auto">{`{
   "event": "checkin" | "checkout",
   "roomNumber": "101",

@@ -46,7 +46,7 @@ export default function Sidebar() {
     <div className={`${collapsed ? 'w-20' : 'w-72'} min-h-screen flex flex-col bg-gray-950/50 backdrop-blur-xl border-r border-white/[0.06] transition-all duration-300`}>
       {/* Logo */}
       <div className="p-5 flex items-center gap-3">
-        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/20 flex-shrink-0">
+        <div className="w-10 h-10 rounded-xl bg-black flex items-center justify-center shadow-lg shadow-orange-500/20 flex-shrink-0 ring-1 ring-orange-500/30">
           <Image src="/logo-icon.svg" alt="Nova" width={28} height={28} className="rounded-lg" />
         </div>
         {!collapsed && (
@@ -79,13 +79,13 @@ export default function Sidebar() {
               title={collapsed ? t(item.labelKey) : undefined}
               className={`group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
                 isActive
-                  ? 'bg-gradient-to-r from-indigo-500/20 to-purple-500/10 text-white shadow-sm ring-1 ring-indigo-500/20'
+                  ? 'bg-gradient-to-r from-orange-500/20 to-amber-500/10 text-white shadow-sm ring-1 ring-orange-500/20'
                   : 'text-gray-400 hover:text-white hover:bg-white/[0.04]'
               }`}
             >
               <div className={`flex-shrink-0 w-9 h-9 rounded-lg flex items-center justify-center transition-all ${
                 isActive
-                  ? 'bg-gradient-to-br from-indigo-500 to-purple-600 shadow-md shadow-indigo-500/25'
+                  ? 'bg-gradient-to-br from-orange-500 to-amber-600 shadow-md shadow-orange-500/25'
                   : 'bg-gray-800/50 group-hover:bg-gray-700/50'
               }`}>
                 <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -94,7 +94,7 @@ export default function Sidebar() {
               </div>
               {!collapsed && <span>{t(item.labelKey)}</span>}
               {isActive && !collapsed && (
-                <div className="ml-auto w-1.5 h-1.5 rounded-full bg-indigo-400 shadow-sm shadow-indigo-400/50" />
+                <div className="ml-auto w-1.5 h-1.5 rounded-full bg-orange-400 shadow-sm shadow-orange-400/50" />
               )}
             </Link>
           )

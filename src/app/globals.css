@@ -8,7 +8,6 @@
     color: #f9fafb;
   }
 
-  /* Custom scrollbar */
   ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
@@ -24,7 +23,6 @@
     background: #4b5563;
   }
 
-  /* Smooth transitions everywhere */
   * {
     transition-property: background-color, border-color, color, box-shadow, opacity;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -33,7 +31,6 @@
 }
 
 @layer components {
-  /* Glass card effect */
   .glass-card {
     background: rgba(17, 24, 39, 0.7);
     backdrop-filter: blur(16px);
@@ -41,15 +38,13 @@
     border-radius: 1rem;
   }
 
-  /* Gradient text */
   .gradient-text {
-    background: linear-gradient(135deg, #818cf8 0%, #a78bfa 50%, #c084fc 100%);
+    background: linear-gradient(135deg, #f97316 0%, #fb923c 50%, #fdba74 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
-  /* Subtle glow on hover */
   .glow-card {
     position: relative;
     overflow: hidden;
@@ -60,7 +55,7 @@
     inset: 0;
     border-radius: inherit;
     padding: 1px;
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.3), transparent, rgba(139, 92, 246, 0.3));
+    background: linear-gradient(135deg, rgba(249, 115, 22, 0.3), transparent, rgba(251, 146, 60, 0.3));
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
@@ -72,28 +67,26 @@
     opacity: 1;
   }
 
-  /* Premium input styling */
   .nova-input {
     @apply w-full bg-gray-900/80 border border-gray-700/50 rounded-xl px-4 py-2.5 text-white placeholder-gray-500;
-    @apply focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50;
+    @apply focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500/50;
     @apply transition-all duration-200;
   }
   .nova-input:hover {
     @apply border-gray-600;
   }
 
-  /* Premium button */
   .nova-btn {
     @apply font-semibold py-2.5 px-5 rounded-xl transition-all duration-200;
     @apply disabled:opacity-50 disabled:cursor-not-allowed;
   }
   .nova-btn-primary {
     @apply nova-btn text-white;
-    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-    box-shadow: 0 4px 14px 0 rgba(79, 70, 229, 0.3);
+    background: linear-gradient(135deg, #ea580c 0%, #f97316 100%);
+    box-shadow: 0 4px 14px 0 rgba(249, 115, 22, 0.3);
   }
   .nova-btn-primary:hover:not(:disabled) {
-    box-shadow: 0 6px 20px 0 rgba(79, 70, 229, 0.5);
+    box-shadow: 0 6px 20px 0 rgba(249, 115, 22, 0.5);
     transform: translateY(-1px);
   }
   .nova-btn-danger {
@@ -106,7 +99,6 @@
     transform: translateY(-1px);
   }
 
-  /* Premium table */
   .nova-table {
     @apply w-full text-sm;
   }
@@ -126,7 +118,6 @@
     @apply px-5 py-3.5;
   }
 
-  /* Badge styling */
   .nova-badge {
     @apply inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold;
   }
@@ -137,7 +128,7 @@
     @apply nova-badge bg-red-500/10 text-red-400 ring-1 ring-red-500/20;
   }
   .nova-badge-blue {
-    @apply nova-badge bg-indigo-500/10 text-indigo-400 ring-1 ring-indigo-500/20;
+    @apply nova-badge bg-blue-500/10 text-blue-400 ring-1 ring-blue-500/20;
   }
   .nova-badge-purple {
     @apply nova-badge bg-purple-500/10 text-purple-400 ring-1 ring-purple-500/20;
@@ -145,15 +136,16 @@
   .nova-badge-yellow {
     @apply nova-badge bg-amber-500/10 text-amber-400 ring-1 ring-amber-500/20;
   }
+  .nova-badge-orange {
+    @apply nova-badge bg-orange-500/10 text-orange-400 ring-1 ring-orange-500/20;
+  }
 
-  /* Page section */
   .nova-section {
     @apply glass-card p-6;
   }
 
-  /* Animated gradient background for login/register */
   .nova-bg-animated {
-    background: linear-gradient(135deg, #030712 0%, #0f172a 25%, #1e1b4b 50%, #0f172a 75%, #030712 100%);
+    background: linear-gradient(135deg, #030712 0%, #0a0a0a 25%, #1a0a00 50%, #0a0a0a 75%, #030712 100%);
     background-size: 400% 400%;
     animation: gradientShift 15s ease infinite;
   }
@@ -164,7 +156,6 @@
     100% { background-position: 0% 50%; }
   }
 
-  /* Floating particles effect for login */
   .nova-particles {
     position: fixed;
     inset: 0;
@@ -178,12 +169,12 @@
     position: absolute;
     border-radius: 50%;
     filter: blur(80px);
-    opacity: 0.15;
+    opacity: 0.12;
   }
   .nova-particles::before {
     width: 500px;
     height: 500px;
-    background: #6366f1;
+    background: #f97316;
     top: -100px;
     right: -100px;
     animation: float 20s ease-in-out infinite;
@@ -191,7 +182,7 @@
   .nova-particles::after {
     width: 400px;
     height: 400px;
-    background: #8b5cf6;
+    background: #ea580c;
     bottom: -100px;
     left: -100px;
     animation: float 25s ease-in-out infinite reverse;

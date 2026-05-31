@@ -194,7 +194,7 @@ export default function UsersPage() {
         <div className="glass-card p-6">
           <h2 className="text-lg font-semibold text-white mb-4">{t('users.add')}</h2>
           {createMsg && (
-            <div className="mb-4 bg-indigo-500/10 ring-1 ring-indigo-500/20 rounded-xl text-indigo-400 text-sm p-3.5">
+            <div className="mb-4 bg-orange-500/10 ring-1 ring-orange-500/20 rounded-xl text-orange-400 text-sm p-3.5">
               {createMsg}
             </div>
           )}

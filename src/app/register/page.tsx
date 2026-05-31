@@ -45,7 +45,7 @@ export default function RegisterPage() {
       <div className="w-full max-w-md relative z-10">
         {/* Logo */}
         <div className="text-center mb-10">
-          <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 shadow-2xl shadow-indigo-500/30 mb-5">
+          <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-orange-500 to-amber-600 shadow-2xl shadow-orange-500/30 mb-5">
             <Image src="/logo-icon.svg" alt="Nova" width={52} height={52} className="rounded-xl" />
           </div>
           <h1 className="text-4xl font-extrabold gradient-text tracking-wider">NOVA</h1>
@@ -91,7 +91,7 @@ export default function RegisterPage() {
           </form>
           <p className="mt-6 text-center text-sm text-gray-500">
             {t('auth.alreadyAccount')}{' '}
-            <Link href="/login" className="text-indigo-400 hover:text-indigo-300 font-medium transition-colors">
+            <Link href="/login" className="text-orange-400 hover:text-orange-300 font-medium transition-colors">
               {t('auth.login')}
             </Link>
           </p>
