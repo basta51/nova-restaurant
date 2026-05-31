@@ -34,12 +34,12 @@ export default function PmsPage() {
   return (
     <div className="flex min-h-screen">
       <Sidebar />
-      <main className="flex-1 p-6">
-        <h1 className="text-2xl font-bold text-white mb-6">{t('pms.title')}</h1>
+      <main className="flex-1 p-8">
+        <h1 className="text-3xl font-bold gradient-text mb-8">{t('pms.title')}</h1>
 
-        <div className="max-w-2xl space-y-4">
+        <div className="max-w-2xl space-y-5">
           {/* Webhook URL card */}
-          <div className="bg-gray-900 rounded-xl border border-gray-800 p-6">
+          <div className="glass-card p-6">
             <h2 className="text-lg font-semibold text-white mb-4">{t('pms.webhook')}</h2>
             <div className="flex gap-2">
               <input
@@ -47,35 +47,33 @@ export default function PmsPage() {
                 value={webhookUrl}
                 readOnly
                 suppressHydrationWarning
-                className="flex-1 bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-gray-300 font-mono text-sm focus:outline-none select-all"
+                className="nova-input flex-1 font-mono text-sm text-gray-300"
               />
               <button
                 onClick={() => webhookUrl && navigator.clipboard.writeText(webhookUrl)}
-                className="bg-gray-700 hover:bg-gray-600 text-white text-sm px-3 py-2 rounded-lg transition-colors whitespace-nowrap"
+                className="nova-btn-primary text-sm whitespace-nowrap"
               >
                 Copy
               </button>
             </div>
-            <p className="mt-2 text-xs text-gray-500">
+            <p className="mt-3 text-xs text-gray-500">
               Configure this URL in your PMS to send check-in/check-out events.
             </p>
           </div>
 
           {/* Connection test card */}
-          <div className="bg-gray-900 rounded-xl border border-gray-800 p-6">
+          <div className="glass-card p-6">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold text-white">{t('pms.status')}</h2>
               {status !== 'idle' && status !== 'testing' && (
                 <span
-                  className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium ${
-                    status === 'connected'
-                      ? 'bg-green-900/50 text-green-300 border border-green-700'
-                      : 'bg-red-900/50 text-red-300 border border-red-700'
+                  className={`inline-flex items-center gap-2 ${
+                    status === 'connected' ? 'nova-badge-green' : 'nova-badge-red'
                   }`}
                 >
                   <span
                     className={`w-2 h-2 rounded-full ${
-                      status === 'connected' ? 'bg-green-400' : 'bg-red-400'
+                      status === 'connected' ? 'bg-emerald-400 shadow-sm shadow-emerald-400/50' : 'bg-red-400'
                     }`}
                   />
                   {testResult}
@@ -85,18 +83,18 @@ export default function PmsPage() {
             <button
               onClick={handleTest}
               disabled={status === 'testing'}
-              className="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-medium py-2 px-6 rounded-lg transition-colors"
+              className="nova-btn-primary"
             >
               {status === 'testing' ? 'Testing...' : t('pms.test')}
             </button>
           </div>
 
           {/* Integration instructions */}
-          <div className="bg-gray-900 rounded-xl border border-gray-800 p-6">
-            <h2 className="text-lg font-semibold text-white mb-3">Integration</h2>
+          <div className="glass-card p-6">
+            <h2 className="text-lg font-semibold text-white mb-4">Integration</h2>
             <div className="space-y-3 text-sm text-gray-400">
-              <p>Send a <span className="text-blue-400 font-mono">POST</span> request to the webhook URL above with the following payload:</p>
-              <pre className="bg-gray-800 rounded-lg p-3 text-gray-300 text-xs overflow-x-auto">{`{
+              <p>Send a <span className="text-indigo-400 font-mono font-medium">POST</span> request to the webhook URL above with the following payload:</p>
+              <pre className="bg-white/[0.03] ring-1 ring-white/[0.06] rounded-xl p-4 text-gray-300 text-xs overflow-x-auto">{`{
   "event": "checkin" | "checkout",
   "roomNumber": "101",
   "guestName": "John Doe",

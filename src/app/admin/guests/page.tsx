@@ -57,56 +57,56 @@ export default function GuestsPage() {
   return (
     <div className="flex min-h-screen">
       <Sidebar />
-      <main className="flex-1 p-6">
-        <h1 className="text-2xl font-bold text-white mb-6">{t('guests.title')}</h1>
-        <div className="bg-gray-900 rounded-xl border border-gray-800 overflow-hidden">
+      <main className="flex-1 p-8">
+        <h1 className="text-3xl font-bold gradient-text mb-6">{t('guests.title')}</h1>
+        <div className="glass-card overflow-hidden">
           {loading ? (
             <div className="p-8 text-center text-gray-400">Loading...</div>
           ) : (
-            <table className="w-full text-sm">
+            <table className="nova-table">
               <thead>
-                <tr className="border-b border-gray-800">
-                  <th className="text-left px-4 py-3 text-gray-400 font-medium">{t('guests.name')}</th>
-                  <th className="text-left px-4 py-3 text-gray-400 font-medium">{t('guests.room')}</th>
-                  <th className="text-left px-4 py-3 text-gray-400 font-medium">{t('guests.mealPlan')}</th>
-                  <th className="text-left px-4 py-3 text-gray-400 font-medium">{t('guests.status')}</th>
-                  <th className="text-left px-4 py-3 text-gray-400 font-medium">{t('guests.actions')}</th>
+                <tr>
+                  <th className="text-xs font-semibold text-gray-400 uppercase tracking-wider px-5 py-3.5">{t('guests.name')}</th>
+                  <th className="text-xs font-semibold text-gray-400 uppercase tracking-wider px-5 py-3.5">{t('guests.room')}</th>
+                  <th className="text-xs font-semibold text-gray-400 uppercase tracking-wider px-5 py-3.5">{t('guests.mealPlan')}</th>
+                  <th className="text-xs font-semibold text-gray-400 uppercase tracking-wider px-5 py-3.5">{t('guests.status')}</th>
+                  <th className="text-xs font-semibold text-gray-400 uppercase tracking-wider px-5 py-3.5">{t('guests.actions')}</th>
                 </tr>
               </thead>
               <tbody>
                 {guests.length === 0 ? (
                   <tr>
-                    <td colSpan={5} className="px-4 py-8 text-center text-gray-500">
+                    <td colSpan={5} className="px-5 py-3.5 text-center text-gray-500">
                       No guests found
                     </td>
                   </tr>
                 ) : (
                   guests.map((guest) => (
-                    <tr key={guest.id} className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
-                      <td className="px-4 py-3 text-white">
+                    <tr key={guest.id}>
+                      <td className="px-5 py-3.5 text-white">
                         {guest.firstName} {guest.lastName}
                       </td>
-                      <td className="px-4 py-3 text-gray-300">{guest.roomNumber}</td>
-                      <td className="px-4 py-3 text-gray-300">
+                      <td className="px-5 py-3.5 text-gray-300">{guest.roomNumber}</td>
+                      <td className="px-5 py-3.5 text-gray-300">
                         {t(`mealPlan.${guest.mealPlan}`) || guest.mealPlan}
                       </td>
-                      <td className="px-4 py-3">
+                      <td className="px-5 py-3.5">
                         <span
-                          className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
+                          className={
                             guest.status === 'active'
-                              ? 'bg-green-900/50 text-green-300 border border-green-700'
-                              : 'bg-gray-700 text-gray-400'
-                          }`}
+                              ? 'nova-badge-green'
+                              : 'nova-badge text-gray-400 bg-gray-500/10 ring-1 ring-gray-500/20'
+                          }
                         >
                           {guest.status === 'active' ? t('guests.active') : t('guests.checkedOut')}
                         </span>
                       </td>
-                      <td className="px-4 py-3">
+                      <td className="px-5 py-3.5">
                         {guest.status === 'active' && (
                           <button
                             onClick={() => handleCheckout(guest.id)}
                             disabled={checkingOut === guest.id}
-                            className="bg-red-600 hover:bg-red-700 disabled:opacity-50 text-white text-xs px-3 py-1.5 rounded-lg transition-colors"
+                            className="nova-btn-danger text-xs px-3 py-1.5"
                           >
                             {checkingOut === guest.id ? '...' : t('checkin.checkout')}
                           </button>

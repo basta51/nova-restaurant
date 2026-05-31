@@ -13,9 +13,9 @@ interface AppUser {
 }
 
 const ROLE_BADGE: Record<UserRole, string> = {
-  admin: 'bg-purple-900/50 text-purple-300 border-purple-700',
-  reception: 'bg-blue-900/50 text-blue-300 border-blue-700',
-  restaurant: 'bg-green-900/50 text-green-300 border-green-700',
+  admin: 'nova-badge-purple',
+  reception: 'nova-badge-blue',
+  restaurant: 'nova-badge-green',
 }
 
 export default function UsersPage() {
@@ -114,55 +114,55 @@ export default function UsersPage() {
   return (
     <div className="flex min-h-screen">
       <Sidebar />
-      <main className="flex-1 p-6">
-        <h1 className="text-2xl font-bold text-white mb-6">{t('users.title')}</h1>
+      <main className="flex-1 p-8">
+        <h1 className="text-3xl font-bold gradient-text mb-8">{t('users.title')}</h1>
 
         {/* Users Table */}
-        <div className="bg-gray-900 rounded-xl border border-gray-800 overflow-hidden mb-6">
+        <div className="glass-card overflow-hidden mb-6">
           {loading ? (
             <div className="p-8 text-center text-gray-400">Loading...</div>
           ) : (
-            <table className="w-full text-sm">
+            <table className="nova-table">
               <thead>
-                <tr className="border-b border-gray-800">
-                  <th className="text-left px-4 py-3 text-gray-400 font-medium">{t('users.name')}</th>
-                  <th className="text-left px-4 py-3 text-gray-400 font-medium">{t('users.email')}</th>
-                  <th className="text-left px-4 py-3 text-gray-400 font-medium">{t('users.role')}</th>
-                  <th className="text-left px-4 py-3 text-gray-400 font-medium">{t('users.actions')}</th>
+                <tr>
+                  <th className="text-xs font-semibold text-gray-400 uppercase tracking-wider px-5 py-3.5">{t('users.name')}</th>
+                  <th className="text-xs font-semibold text-gray-400 uppercase tracking-wider px-5 py-3.5">{t('users.email')}</th>
+                  <th className="text-xs font-semibold text-gray-400 uppercase tracking-wider px-5 py-3.5">{t('users.role')}</th>
+                  <th className="text-xs font-semibold text-gray-400 uppercase tracking-wider px-5 py-3.5">{t('users.actions')}</th>
                 </tr>
               </thead>
               <tbody>
                 {users.length === 0 ? (
                   <tr>
-                    <td colSpan={4} className="px-4 py-8 text-center text-gray-500">
+                    <td colSpan={4} className="px-5 py-8 text-center text-gray-500">
                       No users found
                     </td>
                   </tr>
                 ) : (
                   users.map((user) => (
-                    <tr key={user.id} className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
-                      <td className="px-4 py-3 text-white">{user.name}</td>
-                      <td className="px-4 py-3 text-gray-300">{user.email}</td>
-                      <td className="px-4 py-3">
+                    <tr key={user.id}>
+                      <td className="px-5 py-3.5 text-white font-medium">{user.name}</td>
+                      <td className="px-5 py-3.5 text-gray-300">{user.email}</td>
+                      <td className="px-5 py-3.5">
                         <select
                           value={user.role}
                           disabled={updatingRole === user.id}
                           onChange={(e) => handleRoleChange(user.id, e.target.value as UserRole)}
-                          className={`rounded-full border px-2 py-0.5 text-xs font-medium bg-transparent focus:outline-none cursor-pointer ${ROLE_BADGE[user.role]}`}
+                          className={`rounded-full border-0 px-3 py-1 text-xs font-semibold bg-transparent focus:outline-none cursor-pointer ${ROLE_BADGE[user.role]}`}
                         >
                           <option value="admin">{t('role.admin')}</option>
                           <option value="reception">{t('role.reception')}</option>
                           <option value="restaurant">{t('role.restaurant')}</option>
                         </select>
                       </td>
-                      <td className="px-4 py-3">
+                      <td className="px-5 py-3.5">
                         {deleteConfirm === user.id ? (
                           <div className="flex items-center gap-2">
                             <span className="text-xs text-gray-400">{t('users.confirmDelete')}</span>
                             <button
                               onClick={() => handleDelete(user.id)}
                               disabled={deleting === user.id}
-                              className="bg-red-600 hover:bg-red-700 disabled:opacity-50 text-white text-xs px-2 py-1 rounded transition-colors"
+                              className="nova-btn-danger text-xs px-2 py-1"
                             >
                               {deleting === user.id ? '...' : 'Yes'}
                             </button>
@@ -176,7 +176,7 @@ export default function UsersPage() {
                         ) : (
                           <button
                             onClick={() => setDeleteConfirm(user.id)}
-                            className="bg-red-600 hover:bg-red-700 text-white text-xs px-3 py-1.5 rounded-lg transition-colors"
+                            className="nova-btn-danger text-xs px-3 py-1.5"
                           >
                             {t('users.delete')}
                           </button>
@@ -191,63 +191,36 @@ export default function UsersPage() {
         </div>
 
         {/* Create User Form */}
-        <div className="bg-gray-900 rounded-xl border border-gray-800 p-6">
+        <div className="glass-card p-6">
           <h2 className="text-lg font-semibold text-white mb-4">{t('users.add')}</h2>
           {createMsg && (
-            <div className="mb-4 p-3 bg-blue-900/40 border border-blue-700 rounded-lg text-blue-300 text-sm">
+            <div className="mb-4 bg-indigo-500/10 ring-1 ring-indigo-500/20 rounded-xl text-indigo-400 text-sm p-3.5">
               {createMsg}
             </div>
           )}
           <form onSubmit={handleCreate} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">{t('users.name')}</label>
-              <input
-                type="text"
-                value={newName}
-                onChange={(e) => setNewName(e.target.value)}
-                required
-                className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-600"
-              />
+              <label className="block text-sm font-medium text-gray-300 mb-2">{t('users.name')}</label>
+              <input type="text" value={newName} onChange={(e) => setNewName(e.target.value)} required className="nova-input" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">{t('users.email')}</label>
-              <input
-                type="email"
-                value={newEmail}
-                onChange={(e) => setNewEmail(e.target.value)}
-                required
-                className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-600"
-              />
+              <label className="block text-sm font-medium text-gray-300 mb-2">{t('users.email')}</label>
+              <input type="email" value={newEmail} onChange={(e) => setNewEmail(e.target.value)} required className="nova-input" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">{t('users.password')}</label>
-              <input
-                type="password"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                required
-                autoComplete="new-password"
-                className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-600"
-              />
+              <label className="block text-sm font-medium text-gray-300 mb-2">{t('users.password')}</label>
+              <input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} required autoComplete="new-password" className="nova-input" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">{t('users.role')}</label>
-              <select
-                value={newRole}
-                onChange={(e) => setNewRole(e.target.value as UserRole)}
-                className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-600"
-              >
+              <label className="block text-sm font-medium text-gray-300 mb-2">{t('users.role')}</label>
+              <select value={newRole} onChange={(e) => setNewRole(e.target.value as UserRole)} className="nova-input">
                 <option value="admin">{t('role.admin')}</option>
                 <option value="reception">{t('role.reception')}</option>
                 <option value="restaurant">{t('role.restaurant')}</option>
               </select>
             </div>
             <div className="flex items-end">
-              <button
-                type="submit"
-                disabled={creating}
-                className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-medium py-2 px-4 rounded-lg transition-colors"
-              >
+              <button type="submit" disabled={creating} className="nova-btn-primary w-full">
                 {creating ? '...' : t('users.add')}
               </button>
             </div>

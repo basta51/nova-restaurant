@@ -118,53 +118,56 @@ export default function CheckinPage() {
   return (
     <div className="flex min-h-screen">
       <Sidebar />
-      <main className="flex-1 p-6">
-        <h1 className="text-2xl font-bold text-white mb-6">{t('checkin.title')}</h1>
+      <main className="flex-1 p-8">
+        <div className="mb-8">
+          <h1 className="gradient-text text-3xl font-bold mb-1">{t('checkin.title')}</h1>
+          <p className="text-gray-500 text-sm">Manage guest arrivals and departures</p>
+        </div>
 
         {/* Check-in Form */}
-        <div className="bg-gray-900 rounded-xl border border-gray-800 p-6 mb-6 max-w-2xl">
+        <div className="glass-card p-6 mb-6 max-w-2xl">
           <h2 className="text-lg font-semibold text-white mb-4">{t('checkin.newGuest')}</h2>
           {submitMsg && (
-            <div className="mb-4 p-3 bg-green-900/40 border border-green-700 rounded-lg text-green-300 text-sm">
+            <div className="mb-4 p-3 bg-emerald-500/10 ring-1 ring-emerald-500/20 rounded-xl text-emerald-400 text-sm">
               {submitMsg}
             </div>
           )}
           {submitError && (
-            <div className="mb-4 p-3 bg-red-900/40 border border-red-700 rounded-lg text-red-300 text-sm">
+            <div className="mb-4 p-3 bg-red-500/10 ring-1 ring-red-500/20 rounded-xl text-red-400 text-sm">
               {submitError}
             </div>
           )}
           <form onSubmit={handleCheckin} className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">{t('checkin.firstName')}</label>
+                <label className="block text-sm font-medium text-gray-300 mb-2">{t('checkin.firstName')}</label>
                 <input
                   type="text"
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
                   required
-                  className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  className="nova-input w-full"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">{t('checkin.lastName')}</label>
+                <label className="block text-sm font-medium text-gray-300 mb-2">{t('checkin.lastName')}</label>
                 <input
                   type="text"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
                   required
-                  className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  className="nova-input w-full"
                 />
               </div>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">{t('checkin.room')}</label>
+                <label className="block text-sm font-medium text-gray-300 mb-2">{t('checkin.room')}</label>
                 <select
                   value={selectedRoom}
                   onChange={(e) => setSelectedRoom(e.target.value)}
                   required
-                  className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  className="nova-input w-full"
                 >
                   <option value="">—</option>
                   {rooms.map((r) => (
@@ -173,7 +176,7 @@ export default function CheckinPage() {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">{t('checkin.occupants')}</label>
+                <label className="block text-sm font-medium text-gray-300 mb-2">{t('checkin.occupants')}</label>
                 <input
                   type="number"
                   min="1"
@@ -181,16 +184,16 @@ export default function CheckinPage() {
                   value={occupants}
                   onChange={(e) => setOccupants(e.target.value)}
                   required
-                  className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  className="nova-input w-full"
                 />
               </div>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">{t('checkin.mealPlan')}</label>
+              <label className="block text-sm font-medium text-gray-300 mb-2">{t('checkin.mealPlan')}</label>
               <select
                 value={mealPlan}
                 onChange={(e) => setMealPlan(e.target.value)}
-                className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-600"
+                className="nova-input w-full"
               >
                 <option value="breakfast_only">{t('mealPlan.breakfast_only')}</option>
                 <option value="half_board">{t('mealPlan.half_board')}</option>
@@ -201,7 +204,7 @@ export default function CheckinPage() {
             <button
               type="submit"
               disabled={submitting}
-              className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-medium py-2 px-4 rounded-lg transition-colors"
+              className="nova-btn-primary w-full"
             >
               {submitting ? '...' : t('checkin.submit')}
             </button>
@@ -209,44 +212,45 @@ export default function CheckinPage() {
         </div>
 
         {/* Active Guests */}
-        <div className="bg-gray-900 rounded-xl border border-gray-800 overflow-hidden">
-          <div className="px-4 py-3 border-b border-gray-800">
+        <div className="glass-card overflow-hidden">
+          <div className="px-6 py-4 border-b border-white/5">
+            <p className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-0.5">Currently Staying</p>
             <h2 className="text-lg font-semibold text-white">{t('checkin.activeGuests')}</h2>
           </div>
           {loadingGuests ? (
             <div className="p-8 text-center text-gray-400">Loading...</div>
           ) : (
-            <table className="w-full text-sm">
+            <table className="nova-table w-full text-sm">
               <thead>
-                <tr className="border-b border-gray-800">
-                  <th className="text-left px-4 py-3 text-gray-400 font-medium">{t('guests.name')}</th>
-                  <th className="text-left px-4 py-3 text-gray-400 font-medium">{t('checkin.room')}</th>
-                  <th className="text-left px-4 py-3 text-gray-400 font-medium">{t('checkin.mealPlan')}</th>
-                  <th className="text-left px-4 py-3 text-gray-400 font-medium">{t('guests.actions')}</th>
+                <tr>
+                  <th className="text-left px-6 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">{t('guests.name')}</th>
+                  <th className="text-left px-6 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">{t('checkin.room')}</th>
+                  <th className="text-left px-6 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">{t('checkin.mealPlan')}</th>
+                  <th className="text-left px-6 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">{t('guests.actions')}</th>
                 </tr>
               </thead>
               <tbody>
                 {activeGuests.length === 0 ? (
                   <tr>
-                    <td colSpan={4} className="px-4 py-8 text-center text-gray-500">
+                    <td colSpan={4} className="px-6 py-8 text-center text-gray-500">
                       No active guests
                     </td>
                   </tr>
                 ) : (
                   activeGuests.map((guest) => (
-                    <tr key={guest.id} className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
-                      <td className="px-4 py-3 text-white">
+                    <tr key={guest.id}>
+                      <td className="px-6 py-3 text-white font-medium">
                         {guest.firstName} {guest.lastName}
                       </td>
-                      <td className="px-4 py-3 text-gray-300">{guest.roomNumber}</td>
-                      <td className="px-4 py-3 text-gray-300">
+                      <td className="px-6 py-3 text-gray-300">{guest.roomNumber}</td>
+                      <td className="px-6 py-3 text-gray-300">
                         {t(`mealPlan.${guest.mealPlan}`) || guest.mealPlan}
                       </td>
-                      <td className="px-4 py-3">
+                      <td className="px-6 py-3">
                         <button
                           onClick={() => handleCheckout(guest.id)}
                           disabled={checkingOut === guest.id}
-                          className="bg-red-600 hover:bg-red-700 disabled:opacity-50 text-white text-xs px-3 py-1.5 rounded-lg transition-colors"
+                          className="nova-btn-danger text-xs px-3 py-1.5"
                         >
                           {checkingOut === guest.id ? '...' : t('checkin.checkout')}
                         </button>

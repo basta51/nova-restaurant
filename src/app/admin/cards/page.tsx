@@ -31,11 +31,11 @@ function QRModal({ cardNumber, onClose }: QRModalProps) {
 
   return (
     <div
-      className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4"
+      className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4"
       onClick={onClose}
     >
       <div
-        className="bg-gray-900 rounded-xl border border-gray-800 p-6 max-w-sm w-full"
+        className="glass-card p-6 max-w-sm w-full"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between mb-4">
@@ -58,7 +58,7 @@ function QRModal({ cardNumber, onClose }: QRModalProps) {
         </div>
         <button
           onClick={handleDownload}
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors"
+          className="nova-btn-primary w-full"
         >
           {t('cards.downloadQR')}
         </button>
@@ -94,50 +94,50 @@ export default function CardsPage() {
   return (
     <div className="flex min-h-screen">
       <Sidebar />
-      <main className="flex-1 p-6">
-        <h1 className="text-2xl font-bold text-white mb-6">{t('cards.title')}</h1>
-        <div className="bg-gray-900 rounded-xl border border-gray-800 overflow-hidden">
+      <main className="flex-1 p-8">
+        <h1 className="gradient-text text-3xl font-bold mb-6">{t('cards.title')}</h1>
+        <div className="glass-card overflow-hidden">
           {loading ? (
             <div className="p-8 text-center text-gray-400">Loading...</div>
           ) : (
-            <table className="w-full text-sm">
+            <table className="nova-table w-full text-sm">
               <thead>
                 <tr className="border-b border-gray-800">
-                  <th className="text-left px-4 py-3 text-gray-400 font-medium">{t('cards.number')}</th>
-                  <th className="text-left px-4 py-3 text-gray-400 font-medium">{t('cards.type')}</th>
-                  <th className="text-left px-4 py-3 text-gray-400 font-medium">{t('cards.room')}</th>
-                  <th className="text-left px-4 py-3 text-gray-400 font-medium">{t('cards.status')}</th>
-                  <th className="text-left px-4 py-3 text-gray-400 font-medium">{t('cards.qr')}</th>
+                  <th className="text-left text-xs font-semibold text-gray-400 uppercase tracking-wider px-5 py-3.5">{t('cards.number')}</th>
+                  <th className="text-left text-xs font-semibold text-gray-400 uppercase tracking-wider px-5 py-3.5">{t('cards.type')}</th>
+                  <th className="text-left text-xs font-semibold text-gray-400 uppercase tracking-wider px-5 py-3.5">{t('cards.room')}</th>
+                  <th className="text-left text-xs font-semibold text-gray-400 uppercase tracking-wider px-5 py-3.5">{t('cards.status')}</th>
+                  <th className="text-left text-xs font-semibold text-gray-400 uppercase tracking-wider px-5 py-3.5">{t('cards.qr')}</th>
                 </tr>
               </thead>
               <tbody>
                 {cards.length === 0 ? (
                   <tr>
-                    <td colSpan={5} className="px-4 py-8 text-center text-gray-500">
+                    <td colSpan={5} className="px-5 py-3.5 text-center text-gray-500">
                       No cards found
                     </td>
                   </tr>
                 ) : (
                   cards.map((card) => (
                     <tr key={card.id} className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
-                      <td className="px-4 py-3 text-white font-mono">{card.number}</td>
-                      <td className="px-4 py-3 text-gray-300">{card.type}</td>
-                      <td className="px-4 py-3 text-gray-300">{card.roomNumber}</td>
-                      <td className="px-4 py-3">
+                      <td className="px-5 py-3.5 text-white font-mono">{card.number}</td>
+                      <td className="px-5 py-3.5 text-gray-300">{card.type}</td>
+                      <td className="px-5 py-3.5 text-gray-300">{card.roomNumber}</td>
+                      <td className="px-5 py-3.5">
                         <span
-                          className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
+                          className={
                             card.status === 'active'
-                              ? 'bg-green-900/50 text-green-300 border border-green-700'
-                              : 'bg-gray-700 text-gray-400'
-                          }`}
+                              ? 'nova-badge-green'
+                              : 'nova-badge text-gray-400 bg-gray-500/10 ring-1 ring-gray-500/20'
+                          }
                         >
                           {card.status === 'active' ? t('cards.active') : t('cards.inactive')}
                         </span>
                       </td>
-                      <td className="px-4 py-3">
+                      <td className="px-5 py-3.5">
                         <button
                           onClick={() => setQrCard(card.number)}
-                          className="bg-gray-700 hover:bg-gray-600 text-white text-xs px-3 py-1.5 rounded-lg transition-colors"
+                          className="nova-btn-primary text-xs px-3 py-1.5"
                         >
                           {t('cards.qr')}
                         </button>

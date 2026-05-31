@@ -77,7 +77,6 @@ export default function RestaurantPage() {
       const data = await res.json()
       if (res.ok) {
         setResult({ type: 'approved', message: t('restaurant.approved') })
-        // Refresh guest info
         const refresh = await fetch(`/api/cards/${cardNumber.trim()}/guest`)
         if (refresh.ok) setGuestInfo(await refresh.json())
       } else {
@@ -133,11 +132,11 @@ export default function RestaurantPage() {
   return (
     <div className="flex min-h-screen">
       <Sidebar />
-      <main className="flex-1 p-6">
-        <h1 className="text-2xl font-bold text-white mb-6">{t('restaurant.title')}</h1>
+      <main className="flex-1 p-8">
+        <h1 className="text-3xl font-bold gradient-text mb-8">{t('restaurant.title')}</h1>
 
         {/* Card scanner */}
-        <div className="bg-gray-900 rounded-xl border border-gray-800 p-6 mb-4 max-w-xl">
+        <div className="glass-card p-6 mb-5 max-w-xl">
           <h2 className="text-lg font-semibold text-white mb-4">{t('restaurant.scanCard')}</h2>
           <form onSubmit={handleScan} className="flex gap-3">
             <input
@@ -145,28 +144,24 @@ export default function RestaurantPage() {
               value={cardNumber}
               onChange={(e) => setCardNumber(e.target.value)}
               placeholder={t('restaurant.cardNumber')}
-              className="flex-1 bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-600"
+              className="nova-input flex-1"
             />
-            <button
-              type="submit"
-              disabled={scanning}
-              className="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-medium px-5 py-2 rounded-lg transition-colors"
-            >
+            <button type="submit" disabled={scanning} className="nova-btn-primary">
               {scanning ? '...' : t('restaurant.scan')}
             </button>
           </form>
           {scanError && (
-            <p className="mt-2 text-sm text-red-400">{scanError}</p>
+            <p className="mt-3 text-sm text-red-400 bg-red-500/10 ring-1 ring-red-500/20 rounded-xl px-3 py-2">{scanError}</p>
           )}
         </div>
 
         {/* Result banner */}
         {result.type && (
           <div
-            className={`max-w-xl mb-4 p-4 rounded-xl border text-center text-lg font-bold ${
+            className={`max-w-xl mb-5 p-5 rounded-xl text-center text-lg font-bold ${
               result.type === 'approved'
-                ? 'bg-green-900/50 border-green-700 text-green-300'
-                : 'bg-red-900/50 border-red-700 text-red-300'
+                ? 'glass-card bg-emerald-500/10 ring-1 ring-emerald-500/20 text-emerald-400'
+                : 'glass-card bg-red-500/10 ring-1 ring-red-500/20 text-red-400'
             }`}
           >
             {result.message}
@@ -175,10 +170,10 @@ export default function RestaurantPage() {
 
         {/* Guest info */}
         {guestInfo && (
-          <div className="max-w-xl space-y-4">
-            <div className="bg-gray-900 rounded-xl border border-gray-800 p-5">
+          <div className="max-w-xl space-y-5">
+            <div className="glass-card p-6">
               <h2 className="text-lg font-semibold text-white mb-3">{t('restaurant.guestInfo')}</h2>
-              <div className="space-y-1 text-sm">
+              <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span className="text-gray-400">{t('restaurant.guest')}</span>
                   <span className="text-white font-medium">{guestInfo.name}</span>
@@ -192,24 +187,24 @@ export default function RestaurantPage() {
                   <span className="text-white">{t(`mealPlan.${guestInfo.mealPlan}`) || guestInfo.mealPlan}</span>
                 </div>
               </div>
-              <div className="mt-4 grid grid-cols-3 gap-3">
+              <div className="mt-5 grid grid-cols-3 gap-3">
                 {(['restaurant', 'drinks', 'extras'] as const).map((type) => (
-                  <div key={type} className="bg-gray-800 rounded-lg p-3 text-center">
+                  <div key={type} className="bg-white/[0.04] ring-1 ring-white/[0.06] rounded-xl p-4 text-center">
                     <p className="text-xs text-gray-400 capitalize">{t(`restaurant.${type}`)}</p>
-                    <p className="text-lg font-bold text-white">{guestInfo.credits[type].toFixed(2)}</p>
+                    <p className="text-xl font-bold text-white mt-1">{guestInfo.credits[type].toFixed(2)}</p>
                   </div>
                 ))}
               </div>
             </div>
 
             {/* Validate meal */}
-            <div className="bg-gray-900 rounded-xl border border-gray-800 p-5">
+            <div className="glass-card p-6">
               <h2 className="text-base font-semibold text-white mb-3">{t('restaurant.validate')}</h2>
               <div className="flex gap-3">
                 <select
                   value={selectedMeal}
                   onChange={(e) => setSelectedMeal(e.target.value as MealType)}
-                  className="flex-1 bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  className="nova-input flex-1"
                 >
                   <option value="breakfast">{t('restaurant.breakfast')}</option>
                   <option value="lunch">{t('restaurant.lunch')}</option>
@@ -218,7 +213,7 @@ export default function RestaurantPage() {
                 <button
                   onClick={handleValidateMeal}
                   disabled={validating}
-                  className="bg-green-600 hover:bg-green-700 disabled:opacity-50 text-white font-medium px-5 py-2 rounded-lg transition-colors"
+                  className="font-semibold text-white py-2.5 px-6 rounded-xl bg-gradient-to-r from-emerald-500 to-green-500 shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/40 transition-all hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {validating ? '...' : t('restaurant.validate')}
                 </button>
@@ -226,13 +221,13 @@ export default function RestaurantPage() {
             </div>
 
             {/* Deduct credit */}
-            <div className="bg-gray-900 rounded-xl border border-gray-800 p-5">
+            <div className="glass-card p-6">
               <h2 className="text-base font-semibold text-white mb-3">{t('restaurant.deductCredit')}</h2>
               <div className="flex gap-3">
                 <select
                   value={creditType}
                   onChange={(e) => setCreditType(e.target.value as CreditType)}
-                  className="bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  className="nova-input"
                 >
                   <option value="drinks">{t('restaurant.drinks')}</option>
                   <option value="extras">{t('restaurant.extras')}</option>
@@ -244,12 +239,12 @@ export default function RestaurantPage() {
                   value={creditAmount}
                   onChange={(e) => setCreditAmount(e.target.value)}
                   placeholder={t('restaurant.amount')}
-                  className="flex-1 bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  className="nova-input flex-1"
                 />
                 <button
                   onClick={handleDeductCredit}
                   disabled={deducting || !creditAmount}
-                  className="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-medium px-5 py-2 rounded-lg transition-colors"
+                  className="nova-btn-primary"
                 >
                   {deducting ? '...' : t('restaurant.deductCredit')}
                 </button>

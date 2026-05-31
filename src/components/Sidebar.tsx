@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 import { useLanguage } from './LanguageProvider'
 import LanguageSwitcher from './LanguageSwitcher'
@@ -25,6 +26,7 @@ export default function Sidebar() {
   const router = useRouter()
   const { t } = useLanguage()
   const [userRole, setUserRole] = useState<Role>('restaurant')
+  const [collapsed, setCollapsed] = useState(false)
 
   useEffect(() => {
     fetch('/api/auth/me')
@@ -41,35 +43,85 @@ export default function Sidebar() {
   }
 
   return (
-    <div className="w-64 bg-gray-900 min-h-screen flex flex-col border-r border-gray-800">
-      <div className="p-4 border-b border-gray-800">
-        <h1 className="text-xl font-bold text-white">Nova</h1>
-        <p className="text-xs text-gray-400">Hotel Restaurant Control</p>
+    <div className={`${collapsed ? 'w-20' : 'w-72'} min-h-screen flex flex-col bg-gray-950/50 backdrop-blur-xl border-r border-white/[0.06] transition-all duration-300`}>
+      {/* Logo */}
+      <div className="p-5 flex items-center gap-3">
+        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/20 flex-shrink-0">
+          <Image src="/logo-icon.svg" alt="Nova" width={28} height={28} className="rounded-lg" />
+        </div>
+        {!collapsed && (
+          <div>
+            <h1 className="text-lg font-bold gradient-text tracking-wide">NOVA</h1>
+            <p className="text-[10px] text-gray-500 font-medium tracking-widest uppercase">Hotel Control</p>
+          </div>
+        )}
+        <button
+          onClick={() => setCollapsed(!collapsed)}
+          className="ml-auto text-gray-500 hover:text-white p-1 rounded-lg hover:bg-white/5"
+        >
+          <svg className={`w-4 h-4 transition-transform ${collapsed ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
+          </svg>
+        </button>
       </div>
-      <nav className="flex-1 p-2 space-y-1">
+
+      {/* Divider */}
+      <div className="mx-4 h-px bg-gradient-to-r from-transparent via-gray-700/50 to-transparent" />
+
+      {/* Navigation */}
+      <nav className="flex-1 p-3 space-y-1 mt-2">
         {navItems.map((item) => {
           const isActive = pathname === item.href
           return (
             <Link
               key={item.id}
               href={item.href}
-              className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
-                isActive ? 'bg-blue-600 text-white' : 'text-gray-300 hover:bg-gray-800'
+              title={collapsed ? t(item.labelKey) : undefined}
+              className={`group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
+                isActive
+                  ? 'bg-gradient-to-r from-indigo-500/20 to-purple-500/10 text-white shadow-sm ring-1 ring-indigo-500/20'
+                  : 'text-gray-400 hover:text-white hover:bg-white/[0.04]'
               }`}
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={item.icon} />
-              </svg>
-              {t(item.labelKey)}
+              <div className={`flex-shrink-0 w-9 h-9 rounded-lg flex items-center justify-center transition-all ${
+                isActive
+                  ? 'bg-gradient-to-br from-indigo-500 to-purple-600 shadow-md shadow-indigo-500/25'
+                  : 'bg-gray-800/50 group-hover:bg-gray-700/50'
+              }`}>
+                <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d={item.icon} />
+                </svg>
+              </div>
+              {!collapsed && <span>{t(item.labelKey)}</span>}
+              {isActive && !collapsed && (
+                <div className="ml-auto w-1.5 h-1.5 rounded-full bg-indigo-400 shadow-sm shadow-indigo-400/50" />
+              )}
             </Link>
           )
         })}
       </nav>
-      <div className="p-3 border-t border-gray-800 flex items-center justify-between">
-        <LanguageSwitcher />
-        <NotificationBell />
-        <button onClick={handleLogout} className="text-sm text-gray-400 hover:text-white">
-          {t('auth.logout')}
+
+      {/* Divider */}
+      <div className="mx-4 h-px bg-gradient-to-r from-transparent via-gray-700/50 to-transparent" />
+
+      {/* Bottom bar */}
+      <div className="p-3 space-y-2">
+        {!collapsed && (
+          <div className="flex items-center justify-between px-2">
+            <LanguageSwitcher />
+            <NotificationBell />
+          </div>
+        )}
+        <button
+          onClick={handleLogout}
+          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-400 hover:text-red-400 hover:bg-red-500/5 transition-all"
+        >
+          <div className="flex-shrink-0 w-9 h-9 rounded-lg flex items-center justify-center bg-gray-800/50">
+            <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            </svg>
+          </div>
+          {!collapsed && <span>{t('auth.logout')}</span>}
         </button>
       </div>
     </div>

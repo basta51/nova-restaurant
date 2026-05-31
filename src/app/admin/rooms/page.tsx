@@ -39,45 +39,52 @@ export default function RoomsPage() {
   return (
     <div className="flex min-h-screen">
       <Sidebar />
-      <main className="flex-1 p-6">
-        <h1 className="text-2xl font-bold text-white mb-6">{t('rooms.title')}</h1>
-        <div className="bg-gray-900 rounded-xl border border-gray-800 overflow-hidden">
+      <main className="flex-1 p-8">
+        <div className="mb-6">
+          <h1 className="text-2xl font-bold gradient-text">{t('rooms.title')}</h1>
+          <p className="text-gray-500 mt-1 text-sm">Manage and monitor all hotel rooms</p>
+        </div>
+        <div className="glass-card overflow-hidden">
           {loading ? (
-            <div className="p-8 text-center text-gray-400">Loading...</div>
+            <div className="glass-card p-8 animate-pulse">
+              <div className="h-4 bg-white/10 rounded w-1/4 mb-4" />
+              <div className="h-4 bg-white/10 rounded w-1/2 mb-4" />
+              <div className="h-4 bg-white/10 rounded w-1/3" />
+            </div>
           ) : (
-            <table className="w-full text-sm">
+            <table className="nova-table w-full text-sm">
               <thead>
                 <tr className="border-b border-gray-800">
-                  <th className="text-left px-4 py-3 text-gray-400 font-medium">{t('rooms.number')}</th>
-                  <th className="text-left px-4 py-3 text-gray-400 font-medium">{t('rooms.floor')}</th>
-                  <th className="text-left px-4 py-3 text-gray-400 font-medium">{t('rooms.status')}</th>
-                  <th className="text-left px-4 py-3 text-gray-400 font-medium">{t('rooms.guest')}</th>
+                  <th className="text-left text-xs font-semibold text-gray-400 uppercase tracking-wider px-5 py-3.5">{t('rooms.number')}</th>
+                  <th className="text-left text-xs font-semibold text-gray-400 uppercase tracking-wider px-5 py-3.5">{t('rooms.floor')}</th>
+                  <th className="text-left text-xs font-semibold text-gray-400 uppercase tracking-wider px-5 py-3.5">{t('rooms.status')}</th>
+                  <th className="text-left text-xs font-semibold text-gray-400 uppercase tracking-wider px-5 py-3.5">{t('rooms.guest')}</th>
                 </tr>
               </thead>
               <tbody>
                 {rooms.length === 0 ? (
                   <tr>
-                    <td colSpan={4} className="px-4 py-8 text-center text-gray-500">
+                    <td colSpan={4} className="px-5 py-3.5 text-center text-gray-500">
                       No rooms found
                     </td>
                   </tr>
                 ) : (
                   rooms.map((room) => (
-                    <tr key={room.id} className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
-                      <td className="px-4 py-3 text-white font-medium">{room.number}</td>
-                      <td className="px-4 py-3 text-gray-300">{room.floor}</td>
-                      <td className="px-4 py-3">
+                    <tr key={room.id} className="border-b border-gray-800 hover:bg-white/[0.02] transition-colors">
+                      <td className="px-5 py-3.5 text-white font-medium">{room.number}</td>
+                      <td className="px-5 py-3.5 text-gray-300">{room.floor}</td>
+                      <td className="px-5 py-3.5">
                         <span
-                          className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
+                          className={
                             room.status === 'occupied'
-                              ? 'bg-red-900/50 text-red-300 border border-red-700'
-                              : 'bg-green-900/50 text-green-300 border border-green-700'
-                          }`}
+                              ? 'nova-badge-red'
+                              : 'nova-badge-green'
+                          }
                         >
                           {room.status === 'occupied' ? t('rooms.occupied') : t('rooms.available')}
                         </span>
                       </td>
-                      <td className="px-4 py-3 text-gray-300">{room.guestName || '—'}</td>
+                      <td className="px-5 py-3.5 text-gray-300">{room.guestName || '—'}</td>
                     </tr>
                   ))
                 )}

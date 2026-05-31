@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useLanguage } from '@/components/LanguageProvider'
 
 export default function RegisterPage() {
@@ -38,86 +39,67 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-950 flex items-center justify-center px-4">
-      <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-white">Nova</h1>
-          <p className="text-gray-400 mt-1">Hotel Restaurant Control</p>
+    <div className="min-h-screen nova-bg-animated flex items-center justify-center px-4 relative">
+      <div className="nova-particles" />
+
+      <div className="w-full max-w-md relative z-10">
+        {/* Logo */}
+        <div className="text-center mb-10">
+          <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 shadow-2xl shadow-indigo-500/30 mb-5">
+            <Image src="/logo-icon.svg" alt="Nova" width={52} height={52} className="rounded-xl" />
+          </div>
+          <h1 className="text-4xl font-extrabold gradient-text tracking-wider">NOVA</h1>
+          <p className="text-gray-400 mt-2 text-sm font-medium tracking-widest uppercase">Hotel Restaurant Control</p>
         </div>
-        <div className="bg-gray-900 rounded-xl border border-gray-800 p-8">
-          <h2 className="text-xl font-semibold text-white mb-6">{t('auth.register')}</h2>
+
+        {/* Card */}
+        <div className="glass-card p-8">
+          <h2 className="text-xl font-bold text-white mb-6">{t('auth.register')}</h2>
           {error && (
-            <div className="mb-4 p-3 bg-red-900/40 border border-red-700 rounded-lg text-red-300 text-sm">
+            <div className="mb-5 p-3.5 bg-red-500/10 ring-1 ring-red-500/20 rounded-xl text-red-400 text-sm font-medium">
               {error}
             </div>
           )}
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">
-                {t('auth.hotelName')}
-              </label>
-              <input
-                type="text"
-                value={hotelName}
-                onChange={(e) => setHotelName(e.target.value)}
-                required
-                className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
-                placeholder="Hotel Bellevue"
-              />
+              <label className="block text-sm font-medium text-gray-300 mb-2">{t('auth.hotelName')}</label>
+              <input type="text" value={hotelName} onChange={(e) => setHotelName(e.target.value)} required className="nova-input" placeholder="Hotel Bellevue" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">
-                {t('auth.yourName')}
-              </label>
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-                className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
-              />
+              <label className="block text-sm font-medium text-gray-300 mb-2">{t('auth.yourName')}</label>
+              <input type="text" value={name} onChange={(e) => setName(e.target.value)} required className="nova-input" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">
-                {t('auth.email')}
-              </label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                autoComplete="email"
-                className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
-              />
+              <label className="block text-sm font-medium text-gray-300 mb-2">{t('auth.email')}</label>
+              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required autoComplete="email" className="nova-input" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">
-                {t('auth.password')}
-              </label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                autoComplete="new-password"
-                className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
-              />
+              <label className="block text-sm font-medium text-gray-300 mb-2">{t('auth.password')}</label>
+              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required autoComplete="new-password" className="nova-input" />
             </div>
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-medium py-2 px-4 rounded-lg transition-colors"
-            >
-              {loading ? '...' : t('auth.createAccount')}
+            <button type="submit" disabled={loading} className="w-full nova-btn-primary text-base">
+              {loading ? (
+                <span className="flex items-center justify-center gap-2">
+                  <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                  </svg>
+                  Loading...
+                </span>
+              ) : t('auth.createAccount')}
             </button>
           </form>
-          <p className="mt-6 text-center text-sm text-gray-400">
+          <p className="mt-6 text-center text-sm text-gray-500">
             {t('auth.alreadyAccount')}{' '}
-            <Link href="/login" className="text-blue-400 hover:text-blue-300 transition-colors">
+            <Link href="/login" className="text-indigo-400 hover:text-indigo-300 font-medium transition-colors">
               {t('auth.login')}
             </Link>
           </p>
         </div>
+
+        <p className="text-center text-xs text-gray-600 mt-8">
+          Powered by Nova &middot; Hotel Restaurant Control
+        </p>
       </div>
     </div>
   )
