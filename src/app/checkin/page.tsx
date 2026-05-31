@@ -40,12 +40,24 @@ export default function CheckinPage() {
   const loadData = () => {
     setLoadingGuests(true)
     Promise.all([
-      fetch('/api/rooms?status=available').then((r) => r.json()),
-      fetch('/api/guests?status=active').then((r) => r.json()),
+      fetch('/api/rooms').then((r) => r.json()),
+      fetch('/api/guests').then((r) => r.json()),
     ])
       .then(([roomsData, guestsData]) => {
-        setRooms(Array.isArray(roomsData) ? roomsData : [])
-        setActiveGuests(Array.isArray(guestsData) ? guestsData : [])
+        const roomsList = roomsData.rooms || roomsData || []
+        const available = (Array.isArray(roomsList) ? roomsList : []).filter(
+          (r: any) => !r.guests || r.guests.length === 0
+        )
+        setRooms(available)
+        const guestsList = guestsData.guests || guestsData || []
+        const mapped = (Array.isArray(guestsList) ? guestsList : []).map((g: any) => ({
+          id: g.id,
+          firstName: g.firstName,
+          lastName: g.lastName,
+          roomNumber: g.room?.number || '',
+          mealPlan: g.mealPlan,
+        }))
+        setActiveGuests(mapped)
       })
       .catch(() => {})
       .finally(() => setLoadingGuests(false))
@@ -61,7 +73,7 @@ export default function CheckinPage() {
     setSubmitMsg('')
     setSubmitError('')
     try {
-      const res = await fetch('/api/checkin', {
+      const res = await fetch('/api/guests', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
