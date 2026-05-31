@@ -1,0 +1,111 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Hotel {
+  id        String   @id @default(cuid())
+  name      String
+  address   String?
+  phone     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users        User[]
+  rooms        Room[]
+  transactions Transaction[]
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  password     String
+  name         String
+  role         String   @default("restaurant") // admin, reception, restaurant
+  hotelId      String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  hotel        Hotel         @relation(fields: [hotelId], references: [id])
+  transactions Transaction[]
+}
+
+model Room {
+  id        String   @id @default(cuid())
+  number    String
+  floor     Int      @default(1)
+  hotelId   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  hotel  Hotel   @relation(fields: [hotelId], references: [id])
+  guests Guest[]
+  cards  Card[]
+
+  @@unique([hotelId, number])
+}
+
+model Guest {
+  id         String    @id @default(cuid())
+  firstName  String
+  lastName   String
+  occupants  Int       @default(1)
+  mealPlan   String    @default("breakfast_only")
+  checkIn    DateTime  @default(now())
+  checkOut   DateTime?
+  isActive   Boolean   @default(true)
+  roomId     String
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  room         Room          @relation(fields: [roomId], references: [id])
+  credits      Credit[]
+  transactions Transaction[]
+}
+
+model Card {
+  id         String   @id @default(cuid())
+  cardNumber String   @unique
+  cardType   String   @default("rfid")
+  roomId     String
+  isActive   Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  room Room @relation(fields: [roomId], references: [id])
+}
+
+model Credit {
+  id        String   @id @default(cuid())
+  type      String
+  balance   Float    @default(0)
+  guestId   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  guest Guest @relation(fields: [guestId], references: [id])
+
+  @@unique([guestId, type])
+}
+
+model Transaction {
+  id          String   @id @default(cuid())
+  type        String
+  mealType    String?
+  amount      Float    @default(0)
+  creditType  String?
+  status      String   @default("approved")
+  reason      String?
+  guestId     String
+  userId      String
+  hotelId     String
+  createdAt   DateTime @default(now())
+
+  guest Guest @relation(fields: [guestId], references: [id])
+  user  User  @relation(fields: [userId], references: [id])
+  hotel Hotel @relation(fields: [hotelId], references: [id])
+}
