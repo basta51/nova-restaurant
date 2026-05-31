@@ -19,7 +19,19 @@ export default function RoomsPage() {
   useEffect(() => {
     fetch('/api/rooms')
       .then((r) => r.json())
-      .then((data) => setRooms(Array.isArray(data) ? data : []))
+      .then((data) => {
+        const list = data.rooms || data || []
+        const mapped = (Array.isArray(list) ? list : []).map((r: any) => ({
+          id: r.id,
+          number: r.number,
+          floor: r.floor,
+          status: r.guests?.some((g: any) => g.isActive) ? 'occupied' : 'available',
+          guestName: r.guests?.find((g: any) => g.isActive)
+            ? `${r.guests.find((g: any) => g.isActive).firstName} ${r.guests.find((g: any) => g.isActive).lastName}`
+            : undefined,
+        }))
+        setRooms(mapped)
+      })
       .catch(() => {})
       .finally(() => setLoading(false))
   }, [])
